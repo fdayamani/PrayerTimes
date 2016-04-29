@@ -1,5 +1,7 @@
 package fdayamani.prayertimes.application;
 
-public interface Destination {
+import fdayamani.prayertimes.domain.PrayerTimes;
 
+public interface Destination {
+    void outputPrayerTimes(PrayerTimes prayerTimes);
 }
