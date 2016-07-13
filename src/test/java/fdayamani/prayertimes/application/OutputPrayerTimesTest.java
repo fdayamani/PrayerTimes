@@ -1,8 +1,9 @@
 package fdayamani.prayertimes.application;
 
-import fdayamani.prayertimes.domain.GivenDate;
 import fdayamani.prayertimes.domain.PrayerTimes;
 import fdayamani.prayertimes.domain.TimeRetrievalService;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,8 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class OutputPrayerTimesTest {
-    private static final GivenDate SAMPLE_DATE = new GivenDate();
-    public static final PrayerTimes PRAYER_TIMES = new PrayerTimes();
+    private static final LocalDate SAMPLE_DATE = new LocalDate();
+    public static final PrayerTimes PRAYER_TIMES = new PrayerTimes(new LocalTime());
 
     private TimeRetrievalServiceStub timeRetrievalService;
     private DestinationSpy destination;
@@ -26,7 +27,7 @@ public class OutputPrayerTimesTest {
 
     @Test
     public void invokesTimeRetrievalServiceWithAGivenDate() {
-        outputter.outputTimesForDate(SAMPLE_DATE);
+        outputter.forDate(SAMPLE_DATE);
 
         assertThat(timeRetrievalService.invokedWith()).isEqualTo(SAMPLE_DATE);
     }
@@ -36,18 +37,18 @@ public class OutputPrayerTimesTest {
     public void invokesDestinationWithCorrectPrayerTimes() {
         timeRetrievalService.returns(PRAYER_TIMES).whenInvokedWith(SAMPLE_DATE);
 
-        outputter.outputTimesForDate(SAMPLE_DATE);
+        outputter.forDate(SAMPLE_DATE);
 
         assertThat(destination.invokedWith()).isEqualTo(PRAYER_TIMES);
     }
 
     private class TimeRetrievalServiceStub implements TimeRetrievalService {
 
-        private GivenDate date;
+        private LocalDate date;
         private PrayerTimes prayerTimes;
-        private GivenDate expectedDate;
+        private LocalDate expectedDate;
 
-        public PrayerTimes retrieveTimesFor(GivenDate date) {
+        public PrayerTimes retrieveTimesFor(LocalDate date) {
             this.date = date;
             if (date != null && date.equals(expectedDate)) {
                 return prayerTimes;
@@ -55,7 +56,11 @@ public class OutputPrayerTimesTest {
             return null;
         }
 
-        public GivenDate invokedWith() {
+        public PrayerTimes retrieveNextTime() {
+            return null;
+        }
+
+        public LocalDate invokedWith() {
             return date;
         }
 
@@ -64,7 +69,7 @@ public class OutputPrayerTimesTest {
             return this;
         }
 
-        public void whenInvokedWith(GivenDate expectedDate) {
+        public void whenInvokedWith(LocalDate expectedDate) {
 
             this.expectedDate = expectedDate;
         }

@@ -1,6 +1,9 @@
 package fdayamani.prayertimes.domain;
 
-public interface TimeRetrievalService {
-    PrayerTimes retrieveTimesFor(GivenDate date);
+import org.joda.time.LocalDate;
 
+public interface TimeRetrievalService {
+    PrayerTimes retrieveTimesFor(LocalDate date);
+
+    PrayerTimes retrieveNextTime();
 }

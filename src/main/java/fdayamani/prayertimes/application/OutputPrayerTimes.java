@@ -1,8 +1,8 @@
 package fdayamani.prayertimes.application;
 
-import fdayamani.prayertimes.domain.GivenDate;
 import fdayamani.prayertimes.domain.PrayerTimes;
 import fdayamani.prayertimes.domain.TimeRetrievalService;
+import org.joda.time.LocalDate;
 
 public class OutputPrayerTimes {
 
@@ -14,8 +14,13 @@ public class OutputPrayerTimes {
         this.destination = destination;
     }
 
-    public void outputTimesForDate(GivenDate date) {
+    public void forDate(LocalDate date) {
         PrayerTimes prayerTimes = timeRetrievalService.retrieveTimesFor(date);
         destination.outputPrayerTimes(prayerTimes);
+    }
+
+    public void nextTime() {
+        PrayerTimes nextTime = timeRetrievalService.retrieveNextTime();
+        destination.outputPrayerTimes(nextTime);
     }
 }
