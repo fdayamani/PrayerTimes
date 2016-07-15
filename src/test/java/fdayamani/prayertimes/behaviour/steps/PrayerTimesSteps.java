@@ -3,12 +3,11 @@ package fdayamani.prayertimes.behaviour.steps;
 import fdayamani.prayertimes.application.Destination;
 import fdayamani.prayertimes.application.OutputPrayerTimes;
 import fdayamani.prayertimes.domain.PrayerTimes;
-import fdayamani.prayertimes.domain.TimeRetrievalService;
+import fdayamani.prayertimes.infrastructure.InMemoryTimeRetrievalService;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.embedder.Embedder;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,22 +34,6 @@ public class PrayerTimesSteps extends Embedder {
     public void assertTimeIsAsExpected(Integer hour, Integer minute, Integer second) {
         LocalTime time = new LocalTime(hour, minute, second);
         assertThat(destination.wasGivenTimeOf()).isEqualTo(new PrayerTimes(time));
-    }
-
-    class InMemoryTimeRetrievalService implements TimeRetrievalService {
-        private PrayerTimes prayerTimes;
-
-        public void returns(LocalTime nextTime) {
-            this.prayerTimes = new PrayerTimes(nextTime);
-        }
-
-        public PrayerTimes retrieveTimesFor(LocalDate date) {
-            return null;
-        }
-
-        public PrayerTimes retrieveNextTime() {
-            return prayerTimes;
-        }
     }
 
     class DestinationSpy implements Destination {

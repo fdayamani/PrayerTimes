@@ -1,11 +1,11 @@
-package fdayamani.prayertimes.behaviour;
+package fdayamani.prayertimes.infrastructure;
 
 import fdayamani.prayertimes.application.Destination;
 import fdayamani.prayertimes.domain.PrayerTimes;
 
-public class StdOut implements Destination {
+public class StandardOut implements Destination {
 
     public void outputPrayerTimes(PrayerTimes prayerTimes) {
-
+        System.out.println(prayerTimes.toString());
     }
 }
