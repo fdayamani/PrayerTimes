@@ -1,0 +1,1 @@
+java -cp target/PrayerTimes-1.0-SNAPSHOT.jar fdayamani.prayertimes.infrastructure.NextTimeRunner
